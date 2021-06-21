@@ -8,6 +8,8 @@ import Signup from "./features/user/Signup";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Toaster } from "react-hot-toast";
 import Home from "./features/home/Home";
+import CreatePost from "./features/post/CreatePost";
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Route path="/register" component={Signup}></Route>
         <Route path="/login" component={Signin}></Route>
         <Route path="/profile" component={Profile}></Route>
+        <Route path="/createpost" component={CreatePost}></Route>
       </Switch>
     </div>
   );
