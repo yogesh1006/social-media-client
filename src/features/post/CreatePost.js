@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { createPost, postSelector, clearState } from "./postSlice";
+import { useHistory } from "react-router-dom";
+import toast from "react-hot-toast";
+
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -6,7 +11,44 @@ const CreatePost = () => {
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
 
+  
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { isFetching, isSuccess, isError, errorMessage } = useSelector(
+    postSelector
+  );
 
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearState());
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(errorMessage);
+      dispatch(clearState());
+    }
+
+    if (isSuccess) {
+      toast.success("Post created successfully.")
+      dispatch(clearState());
+      history.push("/");
+    }
+    // eslint-disable-next-line
+  }, [isError, isSuccess]);
+
+  useEffect(() => {
+    if(url) {
+    dispatch(createPost({
+      title,
+      body,
+      pic: url,
+    }))
+  }
+  },[url])
 
   const postDetails = () => {
       const data = new FormData()
@@ -19,7 +61,6 @@ const CreatePost = () => {
       })
       .then(res => res.json())
       .then(data => {
-          console.log(data);
           setUrl(data.url)
       })
       .catch((err) => {
@@ -53,6 +94,7 @@ const CreatePost = () => {
         <button className="px-6 py-2 mt-4 bg-indigo-700 text-white hover:bg-indigo-400" onClick={() => postDetails()}>
           Post
         </button>
+        {isFetching && "Posting..."}
       </div>
     </div>
   );

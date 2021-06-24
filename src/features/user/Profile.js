@@ -1,6 +1,39 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {useSelector} from "react-redux"
+import { userSelector } from "./userSlice";
 
 const Profile = () => {
+  const [allPosts,setAllPosts] = useState([])
+  const {username} = useSelector(userSelector);
+
+  console.log(username);
+  useEffect(() => {
+
+    const fetchAllUserPosts = async ()=>{
+    try {
+      const response = await fetch(
+        'http://localhost:5000/api/get_user_posts',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'authorization': localStorage.getItem('token')
+          }
+        }
+      );
+      let data = await response.json();
+      console.log(data.data);
+      setAllPosts(data.data)
+    } catch (e) {
+      console.log('Error', e.response.data);
+    }
+  }
+  fetchAllUserPosts()
+
+  },[])
+
+
+
   return (
       <div className="flex flex-col justify-center items-center">
     <div className=" flex flex-col items-center justify-center max-w-lg ">
@@ -16,7 +49,7 @@ const Profile = () => {
         <div className="flex flex-col flex-grow ml-5 ">
 
                 <div className="flex flex-row m-2">
-                <h1 className="mr-4 text-3xl">janedoe_</h1>
+                <h1 className="mr-4 text-3xl">{username}</h1>
 
                 <button className="ml-3 bg-gray-100 p-3 br-3 border-current">Edit Profile</button>
                 </div>
@@ -42,13 +75,11 @@ const Profile = () => {
            </div>
       </div>
       <div className="mt-4 flex flex-wrap justify-around ">
-        <img className="w-50 m-1" src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""/>
-        <img className="w-50 m-1" src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""/>
-        <img className="w-50 m-1" src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""/>
-        <img className="w-50 m-1" src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""/>
-        <img className="w-50 m-1" src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""/>
-        <img className="w-50 m-1" src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""/>
-
+        {allPosts.map((item,index) => {
+          return (  
+           <img className="w-1/4 m-1" src={item.photo} alt={item.title} key={index}/>
+          )
+        })}
       </div>
     </div>
     </div>

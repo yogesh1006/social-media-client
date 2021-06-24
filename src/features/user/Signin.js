@@ -90,7 +90,7 @@ const Signin = () => {
           Signin
         </button>
         <div className="mt-4 tracking-wide">
-        <p>Don't have an Account?<Link to="/register"> Signup</Link></p>
+        <p>Don't have an Account?<Link to="/register" className="text-indigo"> Signup</Link></p>
       </div>
         {isFetching && "Loading..."}
       </form>

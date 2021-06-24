@@ -21,7 +21,6 @@ export const signupUser = createAsyncThunk(
         );
         let data = await response.json();
         if (response.status === 200) {
-          localStorage.setItem('token', data.token);
           return { ...data, username: name, email: email };
         } else {
           return thunkAPI.rejectWithValue(data);
@@ -54,7 +53,9 @@ export const signupUser = createAsyncThunk(
         );
         let data = await response.json();
         if (response.status === 200) {
+          console.log(data);
           localStorage.setItem('token', data.data.token);
+          localStorage.setItem('user', JSON.stringify(data.data))
           return data;
         } else {
           return thunkAPI.rejectWithValue(data);
@@ -79,6 +80,13 @@ export const userSlice = createSlice({
         errorMessage: '',
     },
     reducers: {
+       addToken:(state)=>{
+        state.token = localStorage.getItem('token')
+       },
+       logout:(state)=>{
+        state.token = null
+        localStorage.removeItem('token')
+        },
         clearState: (state) => {
             state.isError = false;
             state.isSuccess = false;
@@ -89,6 +97,8 @@ export const userSlice = createSlice({
     },
     extraReducers: {
         [signupUser.fulfilled]: (state, { payload }) => {
+          console.log(state);
+          console.log(payload);
             state.isFetching = false;
             state.isSuccess = true;
             state.email = payload.data.email;
@@ -104,6 +114,9 @@ export const userSlice = createSlice({
         },
 
         [signinUser.fulfilled]: (state, { payload }) => {
+          console.log(payload);
+          console.log(state);
+
           state.email = payload.data.email;
           state.username = payload.data.name;
           state.token = payload.data.token;
@@ -122,7 +135,7 @@ export const userSlice = createSlice({
     }
 })
 
-export const { clearState } = userSlice.actions;
+export const { clearState,addToken,logout } = userSlice.actions;
 
 
 export const userSelector = (state) => state.user
