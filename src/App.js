@@ -11,20 +11,20 @@ import Home from "./features/home/Home";
 import CreatePost from "./features/post/CreatePost";
 import PrivateRoute from "./PrivateRoute";
 import { useSelector,useDispatch } from "react-redux";
-import {addToken} from "./features/user/userSlice"
+import {getUser} from "./features/user/userSlice"
 
 function App() {
   const history = useHistory()
-  const {token} = useSelector(state => state.user)
+  // const {token} = useSelector(state => state.user)
   const dispatch = useDispatch();
   useEffect(()=>{
     const user = JSON.parse(localStorage.getItem("user"))
     if(user){
-      dispatch(addToken())
+      dispatch(getUser())
     }else {
       history.push("/login")
     }
-  },[token])
+  },[])
 
   return (
     <div className="App">

@@ -74,14 +74,16 @@ export const userSlice = createSlice({
         username: '',
         email: '',
         token:'',
+        user:'',
         isFetching: false,
         isSuccess: false,
         isError: false,
         errorMessage: '',
     },
     reducers: {
-       addToken:(state)=>{
+       getUser:(state)=>{
         state.token = localStorage.getItem('token')
+        state.user = localStorage.getItem('user')
        },
        logout:(state)=>{
         state.token = null
@@ -135,7 +137,7 @@ export const userSlice = createSlice({
     }
 })
 
-export const { clearState,addToken,logout } = userSlice.actions;
+export const { clearState,getUser,logout } = userSlice.actions;
 
 
 export const userSelector = (state) => state.user

@@ -6,7 +6,7 @@ const Profile = () => {
   const [allPosts,setAllPosts] = useState([])
   const {username} = useSelector(userSelector);
 
-  console.log(username);
+  // console.log(username);
   useEffect(() => {
 
     const fetchAllUserPosts = async ()=>{
@@ -22,7 +22,7 @@ const Profile = () => {
         }
       );
       let data = await response.json();
-      console.log(data.data);
+      // console.log(data.data);
       setAllPosts(data.data)
     } catch (e) {
       console.log('Error', e.response.data);
