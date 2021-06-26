@@ -1,80 +1,70 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-  export const createPost = createAsyncThunk(
-    'post/createPost',
-    async ({ title, body, pic }, thunkAPI) => {
-      try {
-        const response = await fetch(
-          'http://localhost:5000/api/create_post',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'authorization': localStorage.getItem('token')
-            },
-            body: JSON.stringify({
-              title,
-              body,
-              pic
-            }),
-          }
-        );
-        let data = await response.json();
-        if (response.status === 200) {
-            console.log(data);
-          return data;
-        } else {
-          return thunkAPI.rejectWithValue(data);
+export const createPost = createAsyncThunk(
+  "post/createPost",
+  async ({ title, body, pic }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/create_post",
+        {
+          title,
+          body,
+          pic,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: localStorage.getItem("token"),
+          },
         }
-      } catch (e) {
-        console.log('Error', e.response.data);
-        thunkAPI.rejectWithValue(e.response.data);
-      }
+      );
+      console.log(response);
+      return response.data.data
+    } catch (error) {
+      console.log("Error", error);
     }
-  );
-
- 
-
-  
+  }
+);
 
 export const postSlice = createSlice({
+  name: "post",
+  initialState: {
+    posts: [],
+    isFetching: false,
+    isSuccess: false,
+    isError: false,
+    errorMessage: "",
+  },
+  reducers: {
+    clearState: (state) => {
+      state.isError = false;
+      state.isSuccess = false;
+      state.isFetching = false;
 
-    name:'post',
-    initialState: {
-        posts:[],
-        isFetching: false,
-        isSuccess: false,
-        isError: false,
-        errorMessage: '',
+      return state;
     },
-    reducers: {
-        clearState: (state) => {
-            state.isError = false;
-            state.isSuccess = false;
-            state.isFetching = false;
-      
-            return state;
-          },
+  },
+  extraReducers: {
+    [createPost.pending]: (state) => {
+      state.isFetching = true;
     },
-    extraReducers: {
-        [createPost.fulfilled]: (state, {payload}) => {
-          state.posts = state.posts.push(payload.data)
-          state.isFetching = false;
-          state.isSuccess = true;
-          return state;
-        },
-        [createPost.rejected]: (state, { payload }) => {
-          state.isFetching = false;
-          state.isError = true;
-          state.errorMessage = payload.data;
-        },
-        [createPost.pending]: (state) => {
-          state.isFetching = true;
-        },
+    [createPost.fulfilled]: (state, action) => {
+      console.log(state);
+      console.log(action);
+      state.posts = state.posts.push(action.payload);
+      state.isFetching = false;
+      state.isSuccess = true;
+      return state;
+    },
+    [createPost.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload.data;
     }
-})
+  },
+});
 
 export const { clearState } = postSlice.actions;
 
-
-export const postSelector = (state) => state.post
+export const postSelector = (state) => state.post;

@@ -48,6 +48,7 @@ const CreatePost = () => {
       pic: url,
     }))
   }
+  // eslint-disable-next-line
   },[url])
 
   const postDetails = () => {

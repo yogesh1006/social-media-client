@@ -15,15 +15,17 @@ import {getUser} from "./features/user/userSlice"
 
 function App() {
   const history = useHistory()
-  // const {token} = useSelector(state => state.user)
+  const {user} = useSelector(state => state.user)
+  // console.log(user);
   const dispatch = useDispatch();
   useEffect(()=>{
-    const user = JSON.parse(localStorage.getItem("user"))
+    // const user = JSON.parse(localStorage.getItem("user"))
     if(user){
       dispatch(getUser())
     }else {
       history.push("/login")
     }
+    // eslint-disable-next-line
   },[])
 
   return (

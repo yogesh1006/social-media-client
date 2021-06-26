@@ -4,9 +4,9 @@ import { userSelector } from "./userSlice";
 
 const Profile = () => {
   const [allPosts,setAllPosts] = useState([])
-  const {username} = useSelector(userSelector);
+  const {user} = useSelector(userSelector);
 
-  // console.log(username);
+  console.log(user);
   useEffect(() => {
 
     const fetchAllUserPosts = async ()=>{
@@ -49,7 +49,7 @@ const Profile = () => {
         <div className="flex flex-col flex-grow ml-5 ">
 
                 <div className="flex flex-row m-2">
-                <h1 className="mr-4 text-3xl">{username}</h1>
+                <h1 className="mr-4 text-3xl">{user.name}</h1>
 
                 <button className="ml-3 bg-gray-100 p-3 br-3 border-current">Edit Profile</button>
                 </div>

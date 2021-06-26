@@ -43,7 +43,6 @@ const Signup = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // setValues({...values})
     dispatch(signupUser(values));
     setValues({
       name: "",
