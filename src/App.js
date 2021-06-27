@@ -10,16 +10,14 @@ import { Toaster } from "react-hot-toast";
 import Home from "./features/home/Home";
 import CreatePost from "./features/post/CreatePost";
 import PrivateRoute from "./PrivateRoute";
-import { useSelector,useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {getUser} from "./features/user/userSlice"
 
 function App() {
   const history = useHistory()
-  const {user} = useSelector(state => state.user)
-  // console.log(user);
   const dispatch = useDispatch();
   useEffect(()=>{
-    // const user = JSON.parse(localStorage.getItem("user"))
+    const user = JSON.parse(localStorage.getItem("user"))
     if(user){
       dispatch(getUser())
     }else {

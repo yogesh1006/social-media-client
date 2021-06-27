@@ -5,10 +5,9 @@ import axios from "axios";
 
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
-  console.log(allPosts);
+  // console.log(allPosts);
   const { user } = useSelector(userSelector);
   // console.log(user);
-  // const [comment, setComment] = useState('')
 
   const fetchAllPosts = async () => {
     try {
@@ -72,23 +71,43 @@ const Home = () => {
   };
 
   const makeComment = async (text, id) => {
-     
     try {
-       const res = await axios.put("http://localhost:5000/api/add_comment",
-       {
-         comment:text,
-         postId:id
-       },{
-         headers:{
-           authorization:localStorage.getItem('token')
-         }
-       })
-       console.log(res.data.data);
-       fetchAllPosts()
+      const res = await axios.put(
+        "http://localhost:5000/api/add_comment",
+        {
+          comment: text,
+          postId: id,
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log(res.data.data);
+      fetchAllPosts();
     } catch (error) {
       console.log("Error", error);
     }
-  }
+  };
+
+  const deletePost = async (postId) => {
+    console.log(postId);
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/api/delete_post/${postId}`,
+        {
+          headers: {
+            authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log(res.data);
+      fetchAllPosts();
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
 
   return (
     <div className="br-4">
@@ -99,7 +118,16 @@ const Home = () => {
             className="flex flex-col max-w-lg mx-auto mt-5 br-3 border-current"
             key={index}
           >
-            <h5 className="p-2">{item.postedBy.name}</h5>
+            <div className="flex justify-between items-center">
+              <h5 className="p-2">{item.postedBy.name}</h5>
+              {item.postedBy._id === user._id && (
+                <i
+                  className="fas fa-trash mr-3"
+                  onClick={() => deletePost(item._id)}
+                ></i>
+              )}
+            </div>
+
             <div>
               <img
                 className="w-full h-80 object-cover"
@@ -122,24 +150,28 @@ const Home = () => {
               <h4>{item.likes.length} likes</h4>
               <h4 className="p-2">{item.title}</h4>
               <p className="p-2">{item.body}</p>
-              {
-                item.comments.map(comment => {
-                  return (
-                    <h6 key={comment._id}><span className="font-semibold">{comment.postedBy.name}</span>{comment.text}</h6>
-                  )
-                })
-              }
-              <form onSubmit={(e)=> {
-                e.preventDefault();
-                makeComment(e.target.value, item._id)
-              }}>
-              <input
-                className="p-2 border-none"
-                type="text"
-                placeholder="add a comment"
-              />
+              {item.comments.map((comment) => {
+                return (
+                  <h6 key={comment._id}>
+                    <span className="font-semibold">
+                      {comment.postedBy.name}
+                    </span>
+                    {comment.text}
+                  </h6>
+                );
+              })}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  makeComment(e.target.value, item._id);
+                }}
+              >
+                <input
+                  className="p-2 border-none"
+                  type="text"
+                  placeholder="add a comment"
+                />
               </form>
-            
             </div>
           </div>
         );

@@ -52,7 +52,7 @@ export const postSlice = createSlice({
     [createPost.fulfilled]: (state, action) => {
       console.log(state);
       console.log(action);
-      state.posts = state.posts.push(action.payload);
+      state.posts = action.payload;
       state.isFetching = false;
       state.isSuccess = true;
       return state;

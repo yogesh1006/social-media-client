@@ -1,11 +1,13 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { logout } from "../user/userSlice";
+import { logout, userSelector } from "../user/userSlice";
 
 const Navbar = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const {isSuccess} = useSelector(userSelector)
+  console.log(isSuccess);
 
   return (
     <div className="border-b-4 border-gray-400 ">
@@ -16,7 +18,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="mr-2.5 space-x-3">
-          {localStorage.getItem("token") ? (
+          { isSuccess ? (
             <>
               <Link to="/profile">Profile</Link>
               <Link to="/createpost">Create Post</Link>
@@ -40,7 +42,6 @@ const Navbar = () => {
               </Link>
             </>
           )}
-          {/* {renderList()} */}
         </div>
       </div>
     </div>

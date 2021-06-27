@@ -20,7 +20,7 @@ export const signinUser = createAsyncThunk(
     async (values) => {
       try {
          const res = await axios.post("http://localhost:5000/login", values)
-          console.log(res.data);
+          // console.log(res.data);
           localStorage.setItem("token", res.data.data.token);
           localStorage.setItem("user", JSON.stringify(res.data.data));
           return res.data.data
@@ -45,18 +45,20 @@ export const userSlice = createSlice({
   },
   reducers: {
     getUser: (state) => {
-      state.token = localStorage.getItem("token");
+      // state.token = localStorage.getItem("token");
       state.user = JSON.parse(localStorage.getItem("user"));
+      state.isSuccess= true;
       return state
     },
     logout: (state) => {
       state.token = null;
+      state.isSuccess=false;
       localStorage.removeItem("token");
       return state
     },
     clearState: (state) => {
       state.isError = false;
-      state.isSuccess = false;
+      // state.isSuccess = false;
       state.isFetching = false;
 
       return state;
@@ -82,10 +84,11 @@ export const userSlice = createSlice({
       state.isFetching = true;
     },
     [signinUser.fulfilled]: (state, action )=> {
-      console.log(action);
+      // console.log(action);
       state.email = action.payload.email;
       state.username = action.payload.name;
       state.token = action.payload.token;
+      state.user = action.payload;
       state.isFetching = false;
       state.isSuccess = true;
       return state;
