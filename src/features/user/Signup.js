@@ -13,7 +13,7 @@ const Signup = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { isFetching, isSuccess, isError, errorMessage } =
+  const { isFetching, isSuccess, errorMessage,isError} =
     useSelector(userSelector);
 
   useEffect(() => {
@@ -27,7 +27,6 @@ const Signup = () => {
     if (isSuccess) {
       toast.success("Signup successfull.")
       dispatch(clearState());
-      history.push("/login");
     }
 
     if (isError) {
@@ -44,11 +43,14 @@ const Signup = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(signupUser(values));
+    // toast.success("Signup successfull.")
     setValues({
       name: "",
       email: "",
       password: "",
     });
+    history.push("/login");
+
   };
 
   return (

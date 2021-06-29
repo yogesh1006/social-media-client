@@ -38,9 +38,10 @@ export const userSlice = createSlice({
     email: "",
     token: "",
     user: {},
+    isloggedIn: false,
     isFetching: false,
     isSuccess: false,
-    isError: false,
+    isError:false,
     errorMessage: "",
   },
   reducers: {
@@ -53,14 +54,15 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.token = null;
       state.isSuccess=false;
+      state.isloggedIn= false;
       localStorage.removeItem("token");
       return state
     },
     clearState: (state) => {
-      state.isError = false;
-      // state.isSuccess = false;
+      state.isSuccess = false;
       state.isFetching = false;
-
+      state.isError = false;
+      // state.isloggedIn = false;
       return state;
     },
   },
@@ -77,6 +79,7 @@ export const userSlice = createSlice({
     },
     [signupUser.rejected]: (state, { payload }) => {
       state.isFetching = false;
+      state.isSuccess =false;
       state.isError = true;
       state.errorMessage = payload.data.message;
     },
@@ -91,6 +94,7 @@ export const userSlice = createSlice({
       state.user = action.payload;
       state.isFetching = false;
       state.isSuccess = true;
+      state.isloggedIn= true;
       return state;
     },
     [signinUser.rejected]: (state, { payload }) => {

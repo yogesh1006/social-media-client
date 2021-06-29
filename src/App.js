@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import { Switch, Route, useHistory } from "react-router";
-import "./App.css";
 import Navbar from "./features/navbar/Navbar";
 import Profile from "./features/user/Profile";
 import Signin from "./features/user/Signin";

@@ -6,6 +6,7 @@ import axios from "axios";
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
   // console.log(allPosts);
+  const [comment,setComment] = useState("")
   const { user } = useSelector(userSelector);
   // console.log(user);
 
@@ -86,6 +87,7 @@ const Home = () => {
       );
       console.log(res.data.data);
       fetchAllPosts();
+      setComment("")
     } catch (error) {
       console.log("Error", error);
     }
@@ -135,43 +137,41 @@ const Home = () => {
                 alt=""
               />
             </div>
-            <div>
+            <div className="m-2">
               {item.likes.includes(user._id) ? (
                 <i
-                  className="far fa-thumbs-down"
+                  className="far fa-thumbs-down fa-lg"
                   onClick={() => unlikeHandler(item._id)}
                 ></i>
               ) : (
                 <i
-                  className="far fa-thumbs-up"
+                  className="far fa-thumbs-up fa-lg"
                   onClick={() => likeHandler(item._id)}
                 ></i>
               )}
               <h4>{item.likes.length} likes</h4>
-              <h4 className="p-2">{item.title}</h4>
-              <p className="p-2">{item.body}</p>
+              <h4 className="p-0 m-0"><span className="mr-2 font-semibold">{item.postedBy.name}</span>{item.title}</h4>
+              <p className="p-0 m-0">{item.body}</p>
               {item.comments.map((comment) => {
                 return (
-                  <h6 key={comment._id}>
-                    <span className="font-semibold">
+                  <h6 key={comment._id} className="font-light">
+                    <span className="mr-2 font-semibold">
                       {comment.postedBy.name}
                     </span>
                     {comment.text}
                   </h6>
                 );
               })}
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  makeComment(e.target.value, item._id);
-                }}
-              >
+              <div className="flex justify-between border-4 border-light-blue-500 border-opacity-50">
                 <input
-                  className="p-2 border-none"
+                  className="focus:outline-none ring-0"
                   type="text"
                   placeholder="add a comment"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
                 />
-              </form>
+                <i className="flex far fa-comment fa-lg items-center" onClick={() => makeComment(comment, item._id)}></i>
+              </div>
             </div>
           </div>
         );
