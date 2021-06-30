@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userSelector } from "../user/userSlice";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
@@ -121,7 +122,7 @@ const Home = () => {
             key={index}
           >
             <div className="flex justify-between items-center">
-              <h5 className="p-2">{item.postedBy.name}</h5>
+              <h5 className="p-2"><Link to={item.postedBy._id !== user._id ? `/profile/${item.postedBy._id}` : "/profile"}>{item.postedBy.name}</Link></h5>
               {item.postedBy._id === user._id && (
                 <i
                   className="fas fa-trash mr-3"

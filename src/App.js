@@ -11,6 +11,7 @@ import CreatePost from "./features/post/CreatePost";
 import PrivateRoute from "./PrivateRoute";
 import { useDispatch } from "react-redux";
 import {getUser} from "./features/user/userSlice"
+import UserProfile from "./features/user/UserProfile";
 
 function App() {
   const history = useHistory()
@@ -32,9 +33,10 @@ function App() {
       <Switch>
         <Route path="/register" component={Signup}></Route>
         <Route path="/login" component={Signin}></Route>
+        <Route path="/profile/:userId" component={UserProfile}></Route>
 
         <PrivateRoute exact path="/" component={Home}></PrivateRoute>
-        <PrivateRoute path="/profile" component={Profile}></PrivateRoute>
+        <PrivateRoute exact path="/profile" component={Profile}></PrivateRoute>
         <PrivateRoute path="/createpost" component={CreatePost}></PrivateRoute>
       </Switch>
     </div>

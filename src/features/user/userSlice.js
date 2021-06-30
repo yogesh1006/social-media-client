@@ -20,7 +20,7 @@ export const signinUser = createAsyncThunk(
     async (values) => {
       try {
          const res = await axios.post("http://localhost:5000/login", values)
-          // console.log(res.data);
+          console.log(res.data);
           localStorage.setItem("token", res.data.data.token);
           localStorage.setItem("user", JSON.stringify(res.data.data));
           return res.data.data
@@ -74,8 +74,8 @@ export const userSlice = createSlice({
       console.log(action);
       state.isFetching = false;
       state.isSuccess = true;
-      state.email = action.payload.email;
-      state.username = action.payload.name;
+      // state.email = action.payload.email;
+      // state.username = action.payload.name;
     },
     [signupUser.rejected]: (state, { payload }) => {
       state.isFetching = false;
@@ -98,6 +98,7 @@ export const userSlice = createSlice({
       return state;
     },
     [signinUser.rejected]: (state, { payload }) => {
+      console.log(payload);
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload.data.message;

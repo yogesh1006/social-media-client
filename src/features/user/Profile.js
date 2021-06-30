@@ -6,7 +6,7 @@ const Profile = () => {
   const [allPosts,setAllPosts] = useState([])
   const {user} = useSelector(userSelector);
 
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
 
     const fetchAllUserPosts = async ()=>{
@@ -56,7 +56,7 @@ const Profile = () => {
 
                 <div className="flex flex-row my-auto">
                     <div className="mr-2.5">
-                    <span  className="font-semibold">164</span> posts
+                    <span  className="font-semibold">{allPosts.length}</span> posts
                     </div>
                     <div className="mr-2.5">
                     <span  className="font-semibold">188</span> followers
