@@ -6,7 +6,7 @@ export const createPost = createAsyncThunk(
   async ({ title, body, pic }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/create_post",
+        "/api/create_post",
         {
           title,
           body,

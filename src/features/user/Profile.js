@@ -12,7 +12,7 @@ const Profile = () => {
     const fetchAllUserPosts = async ()=>{
     try {
       const response = await fetch(
-        'http://localhost:5000/api/get_user_posts',
+        '/api/get_user_posts',
         {
           method: 'GET',
           headers: {
@@ -59,10 +59,10 @@ const Profile = () => {
                     <span  className="font-semibold">{allPosts.length}</span> posts
                     </div>
                     <div className="mr-2.5">
-                    <span  className="font-semibold">188</span> followers
+                    <span  className="font-semibold">{user.followers.length}</span> followers
                     </div>
                     <div className="mr-2.5">
-                    <span className="font-semibold">206</span> following
+                    <span className="font-semibold">{user.following.length}</span> following
                     </div>
                 </div>
 

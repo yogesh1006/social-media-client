@@ -1,17 +1,24 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { userSelector } from "../user/userSlice";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
   const { userId } = useParams();
-  //   console.log(userId);
-  //   console.log(profile);
+  const { user } = useSelector(userSelector);
+  // console.log(user);
+  // console.log(profile);
+
+  const [showfollow, setShowFollow] = useState(
+   !user.following.includes(userId) ? true : false
+  );
 
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/get_userprofile/${userId}`,
+        `/api/get_userprofile/${userId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -19,7 +26,7 @@ const UserProfile = () => {
           },
         }
       );
-      //   console.log(response);
+      // console.log(response);
       setProfile(response.data);
     } catch (e) {
       console.log("Error", e.response.data);
@@ -34,7 +41,7 @@ const UserProfile = () => {
   const followUser = async () => {
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/follow",
+        "/api/follow",
         {
           followId: userId,
         },
@@ -47,6 +54,32 @@ const UserProfile = () => {
       );
       console.log(response);
       fetchUserProfile();
+      localStorage.setItem("user", JSON.stringify(response.data.data.user1));
+      setShowFollow(false)
+    } catch (e) {
+      console.log("Error", e.response.data);
+    }
+  };
+
+  const unfollowUser = async () => {
+    try {
+      const response = await axios.put(
+        "/api/unfollow",
+        {
+          unfollowId: userId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log(response);
+      fetchUserProfile();
+      // localStorage.setItem("user", JSON.stringify(response.data.data.user1));
+      setShowFollow(true)
+
     } catch (e) {
       console.log("Error", e.response.data);
     }
@@ -84,17 +117,37 @@ const UserProfile = () => {
                     posts
                   </div>
                   <div className="mr-2.5">
-                    <span className="font-semibold">188</span> followers
+                    <span className="font-semibold">
+                      {profile.user.followers.length}
+                    </span>{" "}
+                    followers
                   </div>
                   <div className="mr-2.5">
-                    <span className="font-semibold">206</span> following
+                    <span className="font-semibold">
+                      {profile.user.following.length}
+                    </span>{" "}
+                    following
                   </div>
                 </div>
 
                 <div className="flex my-auto">
-                  <button onClick={followUser} className="px-6 py-2 mt-4 bg-indigo-700 text-white hover:bg-indigo-400">
-                    Follow
-                  </button>
+                  {showfollow ? (
+                    <>
+                      <button
+                        onClick={() => followUser()}
+                        className="px-6 py-2 mt-4 bg-indigo-700 text-white hover:bg-indigo-400"
+                      >
+                        Follow
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => unfollowUser()}
+                      className="px-6 py-2 mt-4 bg-indigo-700 text-white hover:bg-indigo-400"
+                    >
+                      Unfollow
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

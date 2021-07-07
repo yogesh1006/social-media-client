@@ -62,6 +62,11 @@ const Navbar = () => {
                       Create Post
                     </Link>
                   </li>
+                  <li className=" p-2">
+                    <Link className="block text-black" to="/myfollowingposts">
+                      My following posts
+                    </Link>
+                  </li>
                   <li className="border-b-2 p-2">
                     <button
                       onClick={() => {

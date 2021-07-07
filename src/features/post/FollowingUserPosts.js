@@ -4,9 +4,9 @@ import { userSelector } from "../user/userSlice";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const Home = () => {
+const FollowingUserPosts = () => {
   const [allPosts, setAllPosts] = useState([]);
-  // console.log(allPosts);
+//   console.log(allPosts);
   const [comment,setComment] = useState("")
   const { user } = useSelector(userSelector);
   // console.log(user);
@@ -14,14 +14,14 @@ const Home = () => {
   const fetchAllPosts = async () => {
     try {
       const response = await axios.get(
-        "/api/get_all_posts",
+        "/api/get_otheruser_posts",
         {
           headers: {
             authorization: localStorage.getItem("token"),
           },
         }
       );
-      // console.log(response);
+    //   console.log(response);
       setAllPosts(response.data.data);
     } catch (err) {
       console.log("Error", err);
@@ -181,4 +181,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default FollowingUserPosts;

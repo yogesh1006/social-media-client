@@ -18,7 +18,7 @@ const Signup = () => {
   useEffect(() => {
     return () => {
       dispatch(clearState());
-      history.push('/login')
+      // history.push('/login')
     };
     // eslint-disable-next-line
   }, []);
@@ -26,6 +26,7 @@ const Signup = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Signup successfull.");
+      history.push('/login')
       dispatch(clearState());
     }
 
@@ -52,14 +53,12 @@ const Signup = () => {
         .required("Required"),
     }),
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
       dispatch(signupUser(values))
-      // history.push('/login')
-      // toast.success("signup successfulllll.")
     },
   });
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col items-center h-96  justify-center">
+    <form onSubmit={formik.handleSubmit} className="flex flex-col items-center h-full justify-center">
       <div className="mb-2">
         <h1 className="text-3xl underline text-indigo-700">Signup</h1>
       </div>

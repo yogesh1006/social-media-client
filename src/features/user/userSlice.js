@@ -5,7 +5,7 @@ export const signupUser = createAsyncThunk(
   "users/signupUser",
     async (values) => {
       try {
-         const res = await axios.post("http://localhost:5000/register", values)
+         const res = await axios.post("/register", values)
           console.log(res.data);
           return res.data.data
       } catch (error) {
@@ -19,7 +19,7 @@ export const signinUser = createAsyncThunk(
   "users/signinUser",
     async (values) => {
       try {
-         const res = await axios.post("http://localhost:5000/login", values)
+         const res = await axios.post("/login", values)
           console.log(res.data);
           localStorage.setItem("token", res.data.data.token);
           localStorage.setItem("user", JSON.stringify(res.data.data));

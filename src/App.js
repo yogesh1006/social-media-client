@@ -11,7 +11,8 @@ import CreatePost from "./features/post/CreatePost";
 import PrivateRoute from "./PrivateRoute";
 import { useDispatch } from "react-redux";
 import {getUser} from "./features/user/userSlice"
-import UserProfile from "./features/user/UserProfile";
+import UserProfile from "./features/userProfile/UserProfile";
+import FollowingUserPosts from "./features/post/FollowingUserPosts";
 
 function App() {
   const history = useHistory()
@@ -38,6 +39,8 @@ function App() {
         <PrivateRoute exact path="/" component={Home}></PrivateRoute>
         <PrivateRoute exact path="/profile" component={Profile}></PrivateRoute>
         <PrivateRoute path="/createpost" component={CreatePost}></PrivateRoute>
+        <PrivateRoute path="/myfollowingposts" component={FollowingUserPosts}></PrivateRoute>
+
       </Switch>
     </div>
   );
