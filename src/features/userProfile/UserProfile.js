@@ -9,7 +9,7 @@ const UserProfile = () => {
   const { userId } = useParams();
   const { user } = useSelector(userSelector);
   // console.log(user);
-  // console.log(profile);
+  console.log(profile);
 
   const [showfollow, setShowFollow] = useState(
    !user.following.includes(userId) ? true : false

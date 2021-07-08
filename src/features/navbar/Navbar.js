@@ -45,8 +45,8 @@ const Navbar = () => {
               ref={dropdownRef}
               className={
                 isActive
-                  ? "visible opacity-1 transform translate-y-0  bg-white rounded-lg absolute  top-20 right-0 w-40 shadow-2xl py-2"
-                  : "bg-white rounded-lg absolute inset-x-0 top-20 right-0 w-40 shadow-md opacity-0 invisible py-2"
+                  ? "visible opacity-1 transform translate-y-0  bg-white rounded-lg absolute  top-20 right-0 w-60 shadow-2xl py-2"
+                  : "bg-white rounded-lg absolute inset-x-0 top-20 right-0 w-60 shadow-md opacity-0 invisible py-2"
               }
               // className={`menu ${isActive ? "active" : "inactive"}`}
             >

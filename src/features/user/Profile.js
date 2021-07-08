@@ -6,7 +6,7 @@ const Profile = () => {
   const [allPosts,setAllPosts] = useState([])
   const {user} = useSelector(userSelector);
 
-  // console.log(user);
+  console.log(user);
   useEffect(() => {
 
     const fetchAllUserPosts = async ()=>{
@@ -41,7 +41,7 @@ const Profile = () => {
         <div className="profile-image">
           <img
            className="w-32 h-32 m-3 rounded-full border-gray-500 border-2"
-            src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"
+            src={user.pic}
             alt=""
             width="384" height="512"
           />
@@ -51,8 +51,9 @@ const Profile = () => {
                 <div className="flex flex-row m-2">
                 <h1 className="mr-4 text-3xl">{user.name}</h1>
 
-                <button className="ml-3 bg-gray-100 p-3 br-3 border-current">Edit Profile</button>
                 </div>
+                {/* <button className="ml-3 bg-gray-100 p-3 br-3 border-current">Edit Profile</button> */}
+
 
                 <div className="flex flex-row my-auto">
                     <div className="mr-2.5">
@@ -66,12 +67,12 @@ const Profile = () => {
                     </div>
                 </div>
 
-                <div className="flex my-auto">
-                <p>
-                    <span className="font-semibold">Jane Doe</span> Lorem ipsum dolor
-                    sit, amet consectetur adipisicing elit{" "}
-                </p>
-                </div>
+                {/* <div className="flex my-auto">
+                  <p>
+                      <span className="font-semibold">Jane Doe</span> Lorem ipsum dolor
+                      sit, amet consectetur adipisicing elit{" "}
+                  </p>
+                </div> */}
            </div>
       </div>
       <div className="mt-4 flex flex-wrap justify-around ">

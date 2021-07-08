@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const FollowingUserPosts = () => {
   const [allPosts, setAllPosts] = useState([]);
-//   console.log(allPosts);
+  console.log(allPosts);
   const [comment,setComment] = useState("")
   const { user } = useSelector(userSelector);
   // console.log(user);
@@ -21,7 +21,7 @@ const FollowingUserPosts = () => {
           },
         }
       );
-    //   console.log(response);
+      console.log(response);
       setAllPosts(response.data.data);
     } catch (err) {
       console.log("Error", err);

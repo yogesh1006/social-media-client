@@ -1,16 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { signupUser, userSelector, clearState } from "./userSlice";
 import { Link, useHistory } from "react-router-dom";
 import toast from "react-hot-toast";
-// import validation from "./validation"
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const Signup = () => {
+  const [image,setImage]= useState("")
+  const [url,setUrl]= useState(undefined)
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+     if(url) {
+      dispatch(signupUser(formik.values))
+    }
+    // eslint-disable-next-line
+  }, [url])
+
+  const uploadPic = ()=>{
+    const data = new FormData()
+      data.append("file",image)
+      data.append("upload_preset","instagram")
+      data.append("cloud_name","pbu")
+      fetch("https://api.cloudinary.com/v1_1/pbu/image/upload",{
+          method:"post",
+          body:data
+      })
+      .then(res => res.json())
+      .then(data => {
+          setUrl(data.url)
+      })
+      .catch((err) => {
+          console.log(err);
+      })
+}
 
   const { isFetching, isSuccess, errorMessage, isError } =
     useSelector(userSelector);
@@ -42,6 +67,7 @@ const Signup = () => {
       name: "",
       email: "",
       password: "",
+      pic:url
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -53,8 +79,11 @@ const Signup = () => {
         .required("Required"),
     }),
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2));
-      dispatch(signupUser(values))
+      if(image) {
+        uploadPic()
+      }else {
+        dispatch(signupUser(values))
+      }
     },
   });
   return (
@@ -101,6 +130,15 @@ const Signup = () => {
         <div className="text-left text-red-500 text-sm">{formik.errors.password}</div>
       ) : null}
 
+       <label htmlFor="image" className="block  mb-2">Upload Profile Picture</label>
+       <input
+          id="image"
+          name="image"
+          type="file"
+          className="ml-6 flex justify-center"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
+
       <button type="submit" className="px-6 py-2 mt-4 bg-indigo-700 text-white hover:bg-indigo-400">Submit</button>
       <div className="mt-4 tracking-wide">
         <p>
@@ -113,110 +151,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
-// const Signup = () => {
-//   const [values, setValues] = useState({
-//     name: "",
-//     email: "",
-//     password: "",
-//   });
-
-//   const [errors, setErrors] = useState({})
-//   const dispatch = useDispatch();
-//   const history = useHistory();
-
-//   const { isFetching, isSuccess, errorMessage,isError} =
-//     useSelector(userSelector);
-
-// useEffect(() => {
-//   return () => {
-//     dispatch(clearState());
-//   };
-//   // eslint-disable-next-line
-// }, []);
-
-// useEffect(() => {
-//   if (isSuccess) {
-//     toast.success("Signup successfull.")
-//     dispatch(clearState());
-//   }
-
-//   if (isError) {
-//     toast.error(errorMessage);
-//     dispatch(clearState());
-//   }
-//   // eslint-disable-next-line
-// }, [isSuccess, isError]);
-
-//   const handleChange = (name) => (event) => {
-//     setValues({ ...values, [name]: event.target.value });
-//   };
-
-//   const onSubmit = (e) => {
-//     e.preventDefault();
-//     console.log(values);
-//     setErrors(validation(values));
-//     dispatch(signupUser(values));
-//     setValues({
-//       name: "",
-//       email: "",
-//       password: "",
-//     });
-//     toast.success("Signup successfull.")
-//     history.push("/login");
-
-//   };
-
-//   return (
-//     <form className="flex flex-col items-center h-96  justify-center">
-//       <div>
-//         <h3>Signup</h3>
-//       </div>
-//       <div>
-//         <label className="block  mb-2">Name</label>
-//         <input
-//           className="mb-2"
-//           type="text"
-//           name="name"
-//           value={values.name}
-//           onChange={handleChange("name")}
-//         />
-//         {errors.name && <p>{errors.name}</p>}
-//       </div>
-//       <div>
-//         <label className="block mb-2">Email</label>
-//         <input
-//           className="mb-2"
-//           type="email"
-//           name="email"
-//           value={values.email}
-//           onChange={handleChange("email")}
-//         />
-//        {errors.email && <p className="text-red-600">{errors.email}</p>}
-//       </div>
-//       <div>
-//         <label className="block mb-2">Password</label>
-//         <input
-//           className="mb-2"
-//           type="password"
-//           name="password"
-//           value={values.password}
-//           onChange={handleChange("password")}
-//         />
-//         {errors.password && <p>{errors.password}</p>}
-//       </div>
-//       <button
-//         className="px-6 py-2 mt-4 bg-indigo-700 text-white hover:bg-indigo-400"
-//         onClick={onSubmit}
-//       >
-//         Signup
-//       </button>
-//       <div className="mt-4 tracking-wide">
-//         <p>Already Registered?<Link to="/login"> Signin</Link></p>
-//       </div>
-//       {isFetching && "Loading..."}
-//     </form>
-//   );
-// };
-
-// export default Signup;
