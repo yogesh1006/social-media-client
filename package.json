@@ -2,9 +2,8 @@
   "name": "social-media-client",
   "version": "0.1.0",
   "private": true,
-  "proxy":"http://localhost:5000",
   "dependencies": {
-    "@craco/craco": "^6.1.2",
+    "@craco/craco": "^6.2.0",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@reduxjs/toolkit": "^1.6.0",
@@ -48,6 +47,17 @@
   "devDependencies": {
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.2"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4"
+  },
+  "description": "Social media",
+  "main": "craco.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yogesh1006/social-media-client.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yogesh1006/social-media-client/issues"
   }
 }

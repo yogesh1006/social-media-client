@@ -5,7 +5,7 @@ export const signupUser = createAsyncThunk(
   "users/signupUser",
     async (values) => {
       try {
-         const res = await axios.post("/register", values)
+         const res = await axios.post(`${process.env.REACT_APP_BACKEND}/register`, values)
           console.log(res.data);
           return res.data.data
       } catch (error) {
@@ -19,7 +19,7 @@ export const signinUser = createAsyncThunk(
   "users/signinUser",
     async (values) => {
       try {
-         const res = await axios.post("/login", values)
+         const res = await axios.post(`${process.env.REACT_APP_BACKEND}/login`, values)
           console.log(res.data);
           localStorage.setItem("token", res.data.data.token);
           localStorage.setItem("user", JSON.stringify(res.data.data));
@@ -37,8 +37,7 @@ export const userSlice = createSlice({
     username: "",
     email: "",
     token: "",
-    user: {},
-    isloggedIn: false,
+    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
     isFetching: false,
     isSuccess: false,
     isError:false,
@@ -54,12 +53,11 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.token = null;
       state.isSuccess=false;
-      state.isloggedIn= false;
       localStorage.removeItem("token");
       return state
     },
     clearState: (state) => {
-      state.isSuccess = false;
+      // state.isSuccess = false;
       state.isFetching = false;
       state.isError = false;
       // state.isloggedIn = false;
@@ -87,14 +85,12 @@ export const userSlice = createSlice({
       state.isFetching = true;
     },
     [signinUser.fulfilled]: (state, action )=> {
-      // console.log(action);
       state.email = action.payload.email;
       state.username = action.payload.name;
       state.token = action.payload.token;
       state.user = action.payload;
       state.isFetching = false;
       state.isSuccess = true;
-      state.isloggedIn= true;
       return state;
     },
     [signinUser.rejected]: (state, { payload }) => {

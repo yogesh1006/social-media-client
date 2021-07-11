@@ -14,7 +14,7 @@ const Home = () => {
   const fetchAllPosts = async () => {
     try {
       const response = await axios.get(
-        "/api/get_all_posts",
+        `${process.env.REACT_APP_BACKEND}/api/get_all_posts`,
         {
           headers: {
             authorization: localStorage.getItem("token"),
@@ -35,7 +35,7 @@ const Home = () => {
   const likeHandler = async (id) => {
     try {
       const response = await axios.put(
-        "/api/like_post",
+        `${process.env.REACT_APP_BACKEND}/api/like_post`,
         {
           postId: id,
         },
@@ -55,7 +55,7 @@ const Home = () => {
   const unlikeHandler = async (id) => {
     try {
       const response = await axios.put(
-        "/api/unlike_post",
+        `${process.env.REACT_APP_BACKEND}/api/unlike_post`,
         {
           postId: id,
         },
@@ -75,7 +75,7 @@ const Home = () => {
   const makeComment = async (text, id) => {
     try {
       const res = await axios.put(
-        "/api/add_comment",
+        `${process.env.REACT_APP_BACKEND}/api/add_comment`,
         {
           comment: text,
           postId: id,
@@ -98,7 +98,7 @@ const Home = () => {
     console.log(postId);
     try {
       const res = await axios.delete(
-        `/api/delete_post/${postId}`,
+        `${process.env.REACT_APP_BACKEND}/api/delete_post/${postId}`,
         {
           headers: {
             authorization: localStorage.getItem("token"),

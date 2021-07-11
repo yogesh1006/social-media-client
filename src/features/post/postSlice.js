@@ -6,7 +6,7 @@ export const createPost = createAsyncThunk(
   async ({ title, body, pic }) => {
     try {
       const response = await axios.post(
-        "/api/create_post",
+        `${process.env.REACT_APP_BACKEND}/api/create_post`,
         {
           title,
           body,

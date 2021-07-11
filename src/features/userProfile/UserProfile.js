@@ -18,7 +18,7 @@ const UserProfile = () => {
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(
-        `/api/get_userprofile/${userId}`,
+        `${process.env.REACT_APP_BACKEND}/api/get_userprofile/${userId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -41,7 +41,7 @@ const UserProfile = () => {
   const followUser = async () => {
     try {
       const response = await axios.put(
-        "/api/follow",
+        `${process.env.REACT_APP_BACKEND}/api/follow`,
         {
           followId: userId,
         },
@@ -64,7 +64,7 @@ const UserProfile = () => {
   const unfollowUser = async () => {
     try {
       const response = await axios.put(
-        "/api/unfollow",
+        `${process.env.REACT_APP_BACKEND}/api/unfollow`,
         {
           unfollowId: userId,
         },

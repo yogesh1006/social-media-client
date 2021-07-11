@@ -19,12 +19,12 @@ const CreatePost = () => {
   );
 
 
-  useEffect(() => {
-    return () => {
-      dispatch(clearState());
-    };
-    // eslint-disable-next-line
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(clearState());
+  //   };
+  //   // eslint-disable-next-line
+  // }, []);
 
   useEffect(() => {
     if (isError) {

@@ -23,7 +23,7 @@ const Signin = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Signin successfull.");
-      dispatch(clearState());
+      // return dispatch(clearState());
       history.push("/");
     }
 
