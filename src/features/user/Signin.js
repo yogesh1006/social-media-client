@@ -1,38 +1,16 @@
-import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { signinUser, userSelector, clearState } from "./userSlice";
+import { signinUser, userSelector } from "./userSlice";
 import { Link, useHistory } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Loader from "react-loader-spinner";
 
 const Signin = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { isFetching, isSuccess, errorMessage, isError } =
-    useSelector(userSelector);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearState());
-    };
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success("Signin successfull.");
-      // return dispatch(clearState());
-      history.push("/");
-    }
-
-    if (isError) {
-      toast.error(errorMessage);
-      dispatch(clearState());
-    }
-    // eslint-disable-next-line
-  }, [isSuccess, isError]);
+  const { isFetching } = useSelector(userSelector);
 
   const formik = useFormik({
     initialValues: {
@@ -46,157 +24,84 @@ const Signin = () => {
         .required("Required"),
     }),
     onSubmit: (values) => {
-      dispatch(signinUser(values));
+      dispatch(signinUser(values))
+        .unwrap()
+        .then((res) => {
+          toast.success("Signin Successfull.");
+          history.push("/");
+        })
+        .catch((err) => toast.success(err.message));
     },
   });
+
   return (
-    <form
-      onSubmit={formik.handleSubmit}
-      className="flex flex-col items-center h-96  justify-center"
-    >
-       <div className="mb-2">
-        <h1 className="text-3xl underline text-indigo-700">Signin</h1>
-      </div>
-      <label htmlFor="email" className="block  mb-2">
-        Email Address
-      </label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.email}
-      />
-      {formik.touched.email && formik.errors.email ? (
-        <div className="text-left text-red-500 text-sm">{formik.errors.email}</div>
-      ) : null}
-
-      <label htmlFor="password" className="block  mb-2">
-        Password
-      </label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.password}
-      />
-      {formik.touched.password && formik.errors.password ? (
-        <div className="text-left text-red-500 text-sm">{formik.errors.password}</div>
-      ) : null}
-
-      <button
-        type="submit"
-        className="px-6 py-2 mt-4 bg-indigo-700 text-white hover:bg-indigo-400"
-        disabled={!formik.isValid}
+    <>
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex flex-col items-center h-96  justify-center"
       >
-        Submit
-      </button>
-      <div className="mt-4 tracking-wide">
-        <p>
-          Don't have an Account?
-          <Link to="/register" className="text-indigo-700 underline">
-            {" "}
-            Signup
-          </Link>
-        </p>
-      </div>
-      {isFetching && "Loading..."}
-    </form>
+        <div className="mb-2">
+          <h1 className="text-3xl underline text-indigo-700">Signin</h1>
+        </div>
+        <label htmlFor="email" className="block  mb-2">
+          Email Address
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <div className="text-left text-red-500 text-sm">
+            {formik.errors.email}
+          </div>
+        ) : null}
+
+        <label htmlFor="password" className="block  mb-2">
+          Password
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+        />
+        {formik.touched.password && formik.errors.password ? (
+          <div className="text-left text-red-500 text-sm">
+            {formik.errors.password}
+          </div>
+        ) : null}
+
+        <button
+          type="submit"
+          className="px-6 py-2 mt-4 bg-indigo-700 text-white hover:bg-indigo-400"
+          disabled={!formik.isValid}
+        >
+          Submit
+        </button>
+        <div className="mt-4 tracking-wide">
+          <p>
+            Don't have an Account?
+            <Link to="/register" className="text-indigo-700 underline">
+              {" "}
+              Signup
+            </Link>
+          </p>
+        </div>
+      </form>
+      {isFetching && (
+        <div className="flex flex-col justify-center items-center absolute inset-0 z-10">
+          {" "}
+          <Loader type="TailSpin" color="#00BFFF" height={70} width={70} />
+        </div>
+      )}
+    </>
   );
 };
 
 export default Signin;
-
-// const Signin = () => {
-
-//     const [values, setValues] = useState({
-//         email: "",
-//         password: "",
-//       });
-
-//       const dispatch = useDispatch();
-//       const history = useHistory();
-//       const { isFetching, isSuccess, isError, errorMessage } = useSelector(
-//         userSelector
-//       );
-
-//       useEffect(() => {
-//         return () => {
-//           dispatch(clearState());
-//         };
-//         // eslint-disable-next-line
-//       }, []);
-
-//       useEffect(() => {
-//         if (isError) {
-//           toast.error(errorMessage);
-//           dispatch(clearState());
-//         }
-
-//         if (isSuccess) {
-//           toast.success("Signin successfull.")
-//           dispatch(clearState());
-//           history.push("/");
-//         }
-//         // eslint-disable-next-line
-//       }, [isError, isSuccess]);
-
-//       const handleChange = (name) => (event) => {
-//         setValues({ ...values, [name]: event.target.value });
-//       };
-
-//       const onSubmit = (e) => {
-//         e.preventDefault();
-//         // setValues({...values})
-//         dispatch(signinUser(values));
-//         setValues(
-//           {
-//             email:"",
-//             password:"",
-//         }
-//         )
-//       }
-
-//   return (
-//     <div>
-//       <form className="flex flex-col items-center h-96  justify-center">
-//         <div>
-//           <h4>Signin</h4>
-//         </div>
-//         <div>
-//           <label className="block">Email</label>
-//           <input
-//             type="email"
-//             name="email"
-//             value={values.email}
-//             onChange={handleChange("email")}
-//           />
-//         </div>
-//         <div>
-//           <label className="block">Password</label>
-//           <input
-//             type="password"
-//             name="password"
-//             value={values.password}
-//             onChange={handleChange("password")}
-//           />
-//         </div>
-//         <button
-//           className="px-6 py-2 mt-4 bg-indigo-700 text-white hover:bg-indigo-400"
-//           onClick={onSubmit}
-//         >
-//           Signin
-//         </button>
-//         <div className="mt-4 tracking-wide">
-//         <p>Don't have an Account?<Link to="/register" className="text-indigo"> Signup</Link></p>
-//       </div>
-//         {isFetching && "Loading..."}
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default Signin;

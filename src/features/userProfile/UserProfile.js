@@ -8,8 +8,7 @@ const UserProfile = () => {
   const [profile, setProfile] = useState(null);
   const { userId } = useParams();
   const { user } = useSelector(userSelector);
-  // console.log(user);
-  console.log(profile);
+ 
 
   const [showfollow, setShowFollow] = useState(
    !user.following.includes(userId) ? true : false
@@ -26,7 +25,6 @@ const UserProfile = () => {
           },
         }
       );
-      // console.log(response);
       setProfile(response.data);
     } catch (e) {
       console.log("Error", e.response.data);
@@ -52,7 +50,6 @@ const UserProfile = () => {
           },
         }
       );
-      console.log(response);
       fetchUserProfile();
       localStorage.setItem("user", JSON.stringify(response.data.data.user1));
       setShowFollow(false)
@@ -75,7 +72,6 @@ const UserProfile = () => {
           },
         }
       );
-      console.log(response);
       fetchUserProfile();
       // localStorage.setItem("user", JSON.stringify(response.data.data.user1));
       setShowFollow(true)

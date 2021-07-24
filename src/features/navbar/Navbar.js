@@ -9,10 +9,8 @@ const Navbar = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isSuccess, user } = useSelector(userSelector);
-  console.log( isSuccess);
 
   const dropdownRef = useRef(null);
-  // console.log(dropdownRef);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const onClick = () => setIsActive(!isActive);
 
@@ -21,7 +19,7 @@ const Navbar = () => {
       <div className="flex justify-between items-center p-4 border-b-4 border-gray-400">
         <div className="ml-3 text-2xl tracking-wide">
           <Link to={localStorage.getItem("token") ? "/" : "/login"}>
-            Instagram
+            Frndzs
           </Link>
         </div>
 
@@ -32,7 +30,7 @@ const Navbar = () => {
               className="menu-trigger bg-white flex justify-between items-center px-2 py-2 border-none align-middle shadow transition-shadow ml-auto rounded-lg cursor-pointer hover:shadow-2xl"
             >
               <span className="font-bold align-middle text-base my-3 mr-2">
-                {user.name}
+                {isSuccess && user.name }
               </span>
               <img
                 className="rounded-full h-10 w-10"

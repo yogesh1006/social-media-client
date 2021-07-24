@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const createPost = createAsyncThunk(
   "post/createPost",
-  async ({ title, body, pic }) => {
+  async ({ title, body, pic },{rejectWithValue}) => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND}/api/create_post`,
@@ -12,17 +12,16 @@ export const createPost = createAsyncThunk(
           body,
           pic,
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: localStorage.getItem("token"),
-          },
-        }
+        // {
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     authorization: localStorage.getItem("token"),
+        //   },
+        // }
       );
-      console.log(response);
       return response.data.data
     } catch (error) {
-      console.log("Error", error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -50,12 +49,9 @@ export const postSlice = createSlice({
       state.isFetching = true;
     },
     [createPost.fulfilled]: (state, action) => {
-      console.log(state);
-      console.log(action);
       state.posts = action.payload;
       state.isFetching = false;
       state.isSuccess = true;
-      return state;
     },
     [createPost.rejected]: (state, { payload }) => {
       state.isFetching = false;

@@ -6,10 +6,8 @@ import { userSelector } from "./userSlice";
 const Profile = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [image, setImage] = useState("");
-  // const [url, setUrl] = useState("");
   const { user } = useSelector(userSelector);
 
-  console.log(user);
   const fetchAllUserPosts = async () => {
     try {
       const response = await fetch(
@@ -23,7 +21,6 @@ const Profile = () => {
         }
       );
       let data = await response.json();
-      // console.log(data.data);
       setAllPosts(data.data);
     } catch (e) {
       console.log("Error", e.response.data);
@@ -57,7 +54,6 @@ const Profile = () => {
               },
             }
           );
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -96,8 +92,6 @@ const Profile = () => {
             <div className="flex flex-row m-2">
               <h1 className="mr-4 text-3xl">{user.name}</h1>
             </div>
-            {/* <button className="ml-3 bg-gray-100 p-3 br-3 border-current">Edit Profile</button> */}
-
             <div className="flex flex-row my-auto">
               <div className="mr-2.5">
                 <span className="font-semibold">{allPosts.length}</span> posts
@@ -111,13 +105,6 @@ const Profile = () => {
                 following
               </div>
             </div>
-
-            {/* <div className="flex my-auto">
-                  <p>
-                      <span className="font-semibold">Jane Doe</span> Lorem ipsum dolor
-                      sit, amet consectetur adipisicing elit{" "}
-                  </p>
-                </div> */}
           </div>
         </div>
         <div className="mt-4 flex flex-wrap justify-around ">
