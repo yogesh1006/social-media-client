@@ -36,12 +36,12 @@ function App() {
       <Switch>
         <Route path="/register" component={Signup}></Route>
         <Route path="/login" component={Signin}></Route>
-        <Route path="/profile/:userId" component={UserProfile}></Route>
+        <PrivateRoute path="/profile/:userId" component={UserProfile}></PrivateRoute>
 
         <PrivateRoute exact path="/" component={Home}></PrivateRoute>
         <PrivateRoute exact path="/profile" component={Profile}></PrivateRoute>
         <PrivateRoute path="/createpost" component={CreatePost}></PrivateRoute>
-        <PrivateRoute path="/myfollowingposts" component={FollowingUsersPost} />
+        <PrivateRoute path="/myfollowingposts" component={FollowingUsersPost} ></PrivateRoute>
       </Switch>
     </div>
   );

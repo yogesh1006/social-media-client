@@ -60,7 +60,7 @@ const UserProfile = () => {
 
   const unfollowUser = async () => {
     try {
-      const response = await axios.put(
+      await axios.put(
         `${process.env.REACT_APP_BACKEND}/api/unfollow`,
         {
           unfollowId: userId,
