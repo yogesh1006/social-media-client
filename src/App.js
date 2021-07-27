@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router";
 import Navbar from "./features/navbar/Navbar";
-import Profile from "./features/user/Profile";
+import Profile from "./features/profile/Profile";
 import Signin from "./features/user/Signin";
 import Signup from "./features/user/Signup";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -10,7 +10,7 @@ import CreatePost from "./features/post/CreatePost";
 import PrivateRoute from "./PrivateRoute";
 import { useDispatch } from "react-redux";
 import { getUser } from "./features/user/userSlice";
-import UserProfile from "./features/userProfile/UserProfile";
+import UserProfile from "./features/profile/UserProfile";
 import Home from "./features/feed/Home";
 import "./config/AxiosConfig";
 import FollowingUsersPost from "./features/feed/FollowingUsersPost";

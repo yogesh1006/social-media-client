@@ -4,14 +4,16 @@ import { userSelector } from "../user/userSlice";
 import {feedSelector} from "../feed/feedSlice"
 import { Link } from "react-router-dom";
 import {getAllPosts ,likeHandler, unlikeHandler,deletePost,makeComment} from "./feedSlice";
+import { profileSelector } from "../profile/profileSlice";
 
 
 const Home = () => {
   const [comment,setComment] = useState("")
   const { user } = useSelector(userSelector);
   const {posts} = useSelector(feedSelector);
+  const {profile} = useSelector(profileSelector);
+  console.log(profile);
   const dispatch = useDispatch()
-
   useEffect(() => {
     if (user.token !== null) {      
       (async function () {        
@@ -50,7 +52,11 @@ const Home = () => {
             key={index}
           >
             <div className="flex justify-between items-center">
-              <h5 className="p-2 font-bold"><Link to={item.postedBy._id !== user._id ? `/profile/${item.postedBy._id}` : "/profile"}>{item.postedBy.name}</Link></h5>
+              <div className="flex flex-row">
+                <img src={profile.pic} className="rounded-full w-16 h-16 object-cover m-1" alt="profilepic"  />
+                <h5 className="p-2 font-bold"><Link to={item.postedBy._id !== user._id ? `/profile/${item.postedBy._id}` : "/profile"}>{item.postedBy.name}</Link></h5>
+
+              </div>
               {item.postedBy._id === user._id && (
                 <i
                   className="fas fa-trash mr-3 cursor-pointer"

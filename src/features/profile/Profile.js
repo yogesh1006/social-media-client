@@ -1,30 +1,34 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useSelector,useDispatch } from "react-redux";
-import { getUserPosts, getUser,profileSelector, uploadPic } from "../profile/profileSlice";
-import { userSelector } from "./userSlice";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getUserPosts,
+  getUser,
+  profileSelector,
+  uploadPic,
+} from "./profileSlice";
+import { userSelector } from "../user/userSlice";
 
 const Profile = () => {
   const [image, setImage] = useState("");
   const { user } = useSelector(userSelector);
-  const {profile,posts} = useSelector(profileSelector);
+  const { profile, posts } = useSelector(profileSelector);
   const dispatch = useDispatch();
   // console.log(profile ,posts);
 
   useEffect(() => {
-    if (user.token !== null) {      
-      (async function () {        
-        await dispatch(getUserPosts());        
+    if (user.token !== null) {
+      (async function () {
+        await dispatch(getUserPosts());
       })();
     }
     // eslint-disable-next-line
   }, [user.token]);
 
-
   useEffect(() => {
-    if (user.token !== null) {      
-      (async function () {        
-        await dispatch(getUser());        
+    if (user.token !== null) {
+      (async function () {
+        await dispatch(getUser());
       })();
     }
     // eslint-disable-next-line
@@ -42,11 +46,12 @@ const Profile = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-           dispatch(uploadPic(data.url)).unwrap()
-           .then((res) => {
-             toast.success(res.data.message);
-           })
-           .catch((err) => console.log(err));
+          dispatch(uploadPic(data.url))
+            .unwrap()
+            .then((res) => {
+              toast.success(res.data.message);
+            })
+            .catch((err) => console.log(err));
         })
         .catch((err) => {
           console.log(err);
@@ -58,27 +63,33 @@ const Profile = () => {
   const updatePhoto = (file) => {
     setImage(file);
   };
-  
+
   return (
     <div className="flex flex-col justify-center items-center">
       <div className=" flex flex-col items-center justify-center max-w-lg ">
         <div className="flex border-b-2 border-light-blue-500 ">
           <div className="profile-image">
             <img
-              className="w-full max-w-sm h-auto m-3 rounded-full object-cover border-gray-500 border-2"
+              className="w-full max-w-4 h-auto m-3 rounded-full object-cover border-gray-500 border-2"
               src={profile.pic}
               alt="profilepic"
-              // width="384"
-              // height="512"
             />
-          </div>
-          <div>
+            <div>
               <input
                 type="file"
-                className="ml-6 flex justify-center opacity-0 h-full w-full"
+                id="actual-btn"
+                hidden
                 onChange={(e) => updatePhoto(e.target.files[0])}
               />
-           </div>
+
+              {/* <!-- our custom upload button --> */}
+              <label className="bg-blue-400 p-1 align-center" htmlFor="actual-btn">Choose File</label>
+
+              {/* <!-- name of file chosen --> */}
+              {/* <span id="file-chosen"></span> */}
+            </div>
+          </div>
+
           <div className="flex flex-col flex-grow ml-5 ">
             <div className="flex flex-row m-2">
               <h1 className="mr-4 text-3xl">{user.name}</h1>
@@ -98,11 +109,11 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="mt-4 flex flex-wrap justify-around ">
+        <div className="mt-4 flex flex-row flex-wrap justify-start gap-1 md:gap-2">
           {posts.map((item, index) => {
             return (
               <img
-                className="w-1/4 m-1"
+                className="w-36 md:w-1/3"
                 src={item.photo}
                 alt={item.title}
                 key={index}
