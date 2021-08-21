@@ -14,6 +14,7 @@ import UserProfile from "./features/profile/UserProfile";
 import Home from "./features/feed/Home";
 import "./config/AxiosConfig";
 import FollowingUsersPost from "./features/feed/FollowingUsersPost";
+import "./App.css";
 
 function App() {
   const history = useHistory();
@@ -30,7 +31,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App mb-5">
       <Navbar />
       <Toaster />
       <Switch>

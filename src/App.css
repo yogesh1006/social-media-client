@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 
-.menu.active {
+
+/* .menu.active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-  }
+  } */
+
+.App{
+  font-family: 'Poppins', sans-serif;
+}

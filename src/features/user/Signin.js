@@ -82,7 +82,7 @@ const Signin = () => {
           className="px-6 py-2 mt-4 bg-indigo-700 text-white hover:bg-indigo-400"
           disabled={!formik.isValid}
         >
-          Submit
+          Login
         </button>
         <div className="mt-4 tracking-wide">
           <p>

@@ -16,9 +16,9 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center p-4 border-b-4 border-gray-400">
+      <div className="flex justify-between items-center p-4 bg-indigo-400">
         <div className="ml-3 text-2xl tracking-wide">
-          <Link to={localStorage.getItem("token") ? "/" : "/login"}>
+          <Link to={localStorage.getItem("token") ? "/" : "/login"} className="text-3xl underline text-white">
             Frndzs
           </Link>
         </div>

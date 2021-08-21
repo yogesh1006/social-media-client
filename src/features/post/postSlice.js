@@ -11,13 +11,7 @@ export const createPost = createAsyncThunk(
           title,
           body,
           pic,
-        },
-        // {
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     authorization: localStorage.getItem("token"),
-        //   },
-        // }
+        }
       );
       return response.data.data
     } catch (error) {
