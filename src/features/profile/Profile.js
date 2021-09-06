@@ -65,12 +65,12 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className=" flex flex-col items-center justify-center max-w-lg ">
+    <div className="flex flex-col justify-center items-center ">
+      <div className=" flex flex-col items-center justify-center max-w-2xl">
         <div className="flex border-b-2 border-light-blue-500 ">
           <div className="profile-image">
             <img
-              className="w-full max-w-4 h-auto m-3 rounded-full object-cover border-gray-500 border-2"
+              className="w-40 max-w-4 h-auto m-3 rounded-full object-cover border-gray-500 border-2"
               src={profile.pic}
               alt="profilepic"
             />
@@ -82,17 +82,18 @@ const Profile = () => {
                 onChange={(e) => updatePhoto(e.target.files[0])}
               />
 
-              {/* <!-- our custom upload button --> */}
-              <label className="bg-blue-400 p-1 align-center" htmlFor="actual-btn">Choose File</label>
-
-              {/* <!-- name of file chosen --> */}
-              {/* <span id="file-chosen"></span> */}
+              <label
+                className="bg-blue-400 p-1 align-center"
+                htmlFor="actual-btn"
+              >
+              Upload
+              </label>
             </div>
           </div>
 
-          <div className="flex flex-col flex-grow ml-5 ">
-            <div className="flex flex-row m-2">
-              <h1 className="mr-4 text-3xl">{user.name}</h1>
+          <div className="flex flex-col flex-grow justify-start ml-5 ">
+            <div className="flex flex-row p-2">
+              <h1 className=" text-3xl">{user.name}</h1>
             </div>
             <div className="flex flex-row my-auto">
               <div className="mr-2.5">

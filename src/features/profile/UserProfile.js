@@ -99,10 +99,6 @@ const UserProfile = () => {
               <div className="flex flex-col flex-grow ml-5 ">
                 <div className="flex flex-row m-2">
                   <h1 className="mr-4 text-3xl">{profile.user.name}</h1>
-
-                  <button className="ml-3 bg-gray-100 p-3 br-3 border-current">
-                    Edit Profile
-                  </button>
                 </div>
 
                 <div className="flex flex-row my-auto">
